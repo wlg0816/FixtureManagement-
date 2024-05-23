@@ -9,18 +9,78 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace FixtureManagementApp
 {
     public partial class Form1 : Form 
     {
+        //等比例缩放的原始点
+        private float X;
+        private float Y;
+
+        #region 所有控件等比例缩放
+        private void setTag(Control cons)
+        {
+            foreach (Control con in cons.Controls)
+            {
+                con.Tag = con.Width + ":" + con.Height + ":" + con.Left + ":" + con.Top + ":" + con.Font.Size;
+                if (con.Controls.Count > 0)
+                    setTag(con);
+            }
+        }
+        private void setControls(float newx, float newy, Control cons)
+        {
+            foreach (Control con in cons.Controls)
+            {
+
+                string[] mytag = con.Tag.ToString().Split(':');
+                float a = Convert.ToSingle(mytag[0]) * newx;
+                con.Width = (int)a;
+                a = Convert.ToSingle(mytag[1]) * newy;
+                con.Height = (int)(a);
+                a = Convert.ToSingle(mytag[2]) * newx;
+                con.Left = (int)(a);
+                a = Convert.ToSingle(mytag[3]) * newy;
+                con.Top = (int)(a);
+                Single currentSize = Convert.ToSingle(mytag[4]) * Math.Min(newx, newy);
+                con.Font = new Font(con.Font.Name, currentSize, con.Font.Style, con.Font.Unit);
+                if (con.Controls.Count > 0)
+                {
+                    setControls(newx, newy, con);
+                }
+            }
+
+        }
+
+        void Form_Resize(object sender, EventArgs e)
+        {
+            float newx = (this.Width) / X;
+            float newy = this.Height / Y;
+            setControls(newx, newy, this);
+        }
+        #endregion
+
         public Form1()
         {
             InitializeComponent();
+            // 多线程控件访问
+            Control.CheckForIllegalCrossThreadCalls = false;
+
+            X = this.Width;
+            Y = this.Height;
+
+            //在窗体加载时候  解决闪烁问题
+            //将图像绘制到缓冲区 减少闪烁
+            this.DoubleBuffered = true;//设置本窗体
+            SetStyle(ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.
+            SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲
         }
 
         WarningDialogForm dialogForm = new WarningDialogForm();
@@ -41,25 +101,42 @@ namespace FixtureManagementApp
         /// </summary>
         public int selectHistoricalIndex;
         private void timer1_Tick(object sender, EventArgs e)
-        {
-            // 获取界面年月日、星期、时分秒
-            this.getPageDateTimeEntity();
-            // 根据当前绑定工装获取数据
+        {            
+            Thread threadAll = new Thread(new ThreadStart(getAllDeviceLocationTimer));//实例化一个线程
+
+            threadAll.IsBackground = true;//将线程改为后台线程
+
+            threadAll.Start();//开启线程
+
             this.getMainEntity();
-            // 绑定当前设备绑定位置(页签\工装状态检测)
-            this.getAllDeviceLocationTimer();
         }
+
+        public delegate void OutDelegate(bool isShow);
+
+        public delegate void ShowHistoricalSummary();
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //按键等比例缩放，注册到窗口Resize事件中
+            this.Resize += new EventHandler(Form_Resize);
+
+            setTag(this);
+            //在MDI时用
+            Form_Resize(new object(), new EventArgs());
             // 获取当前数据主界面固定数据
-            this.getPageDateTimeEntity();
-            // 获取主界面展示数据
-            this.getMainEntity();
+            this.getPageDateTimeEntity();           
             // 获取当前的配置信息
             this.getLocationList();
             // 绑定当前设备绑定位置(页签)
             this.getAllDeviceLocation();
+            // 获取主界面展示数据
+            this.getMainEntity();
+
+        }
+
+        public void uiWaitingBarDisplay(bool isShow)
+        {
+            uiWaitingBar2.Visible = isShow;
         }
         /// <summary>
         /// 获取界面年月日、星期、时分秒
@@ -77,23 +154,22 @@ namespace FixtureManagementApp
         /// </summary>
         private void getMainEntity()
         {
+            OutDelegate handler = uiWaitingBarDisplay;
+
+            handler(true);
+
             //读取XML的数据值
             FixtureManagementBLL.Service.IAppConfigPathSetService configPathSetService = new FixtureManagementBLL.Service.Impl.AppConfigPathSetImpl();
 
-            string deviceCode = configPathSetService.getAppConfigValue("deviceCode");        
+            string deviceCode = configPathSetService.getAppConfigValue("deviceCode");
 
             FixtureManagementBLL.Service.IMesFrockService frockService = new FixtureManagementBLL.Service.Impl.MesFrockImpl();
 
             var frockEntity = frockService.getFrockLifeInfo(uiNavBar1SelectedIndexId);
 
-            if (uiTabControlMenu1.SelectedIndex == 1)
-            {
-                var historicalEntity = frockService.getHistoricalSummaryEntity(uiNavBar2SelectedIndexId);
-                // 获取历史的汇总数据
-                this.HistoricalSummary(historicalEntity);
-            }
-            
             this.sendMainPage(frockEntity);
+
+            handler(false);
 
             if (frockEntity == null)
             {
@@ -249,13 +325,30 @@ namespace FixtureManagementApp
         {
             //触发点击事件
             timer1.Enabled = uiTabControlMenu1.SelectedIndex < 2;
+
+            if (uiTabControlMenu1.SelectedIndex == 1)
+            {
+                timer2.Enabled = true;
+
+                timer1.Enabled = false;
+            }
+
+            if (uiTabControlMenu1.SelectedIndex == 0)
+            {
+                timer1.Enabled = true;
+
+                timer2.Enabled = false;
+            }
         }
 
         private void uiNavBar1_MenuItemClick(string itemText, int menuIndex, int pageIndex)
-        {            
+        {
             uiNavBar1SelectedIndexId = long.Parse(uiNavBar1.Nodes[menuIndex].Name);
 
             selectMainIndex = uiNavBar1.SelectedIndex;
+
+            // 获取主界面展示数据
+            this.getMainEntity();
         }
 
         private List<DeviceLocationEntity> getAllDeviceLocation()
@@ -266,9 +359,9 @@ namespace FixtureManagementApp
 
             var list= frockService.getDeviceLocationList(configPathSetService.getAppConfigValue("deviceCode"));        
 
-            uiNavBar1.Nodes.Clear();
+            this.uiNavBar1.Nodes.Clear();
 
-            uiNavBar2.Nodes.Clear();
+            this.uiNavBar2.Nodes.Clear();
 
             for (int i=0; i<list.Count; i++)
             {
@@ -305,6 +398,11 @@ namespace FixtureManagementApp
             uiNavBar2SelectedIndexId = long.Parse(uiNavBar2.Nodes[menuIndex].Name);
 
             selectHistoricalIndex = uiNavBar2.SelectedIndex;
+
+            // 设置委托
+            ShowHistoricalSummary showHistorical = getHistoricalSummaryFun;
+
+            showHistorical();
         }
         //
         public void getAllDeviceLocationTimer()
@@ -350,6 +448,43 @@ namespace FixtureManagementApp
                 updatePlcState(fockStateEnum.Soon.GetHashCode(), deviceCode);
 
             }
+        }
+        /// <summary>
+        /// 获取历史的数据
+        /// </summary>
+        public void getHistoricalSummaryFun()
+        {
+            uiWaitingBar1.Visible = true;
+
+            FixtureManagementBLL.Service.IMesFrockService frockService = new FixtureManagementBLL.Service.Impl.MesFrockImpl();
+
+            var historicalEntity = frockService.getHistoricalSummaryEntity(uiNavBar2SelectedIndexId);
+            // 获取历史的汇总数据
+            this.HistoricalSummary(historicalEntity);
+
+            uiWaitingBar1.Visible = false;
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+
+            Thread thread = new Thread(new ThreadStart(getAllDeviceLocationTimer));//实例化一个线程
+
+            thread.IsBackground = true;//将线程改为后台线程
+
+            thread.Start();//开启线程
+
+            // 设置委托
+            ShowHistoricalSummary showHistorical = getHistoricalSummaryFun;
+
+            showHistorical();
+
+        }
+
+        private void timer3_Tick(object sender, EventArgs e)
+        {
+            // 获取界面年月日、星期、时分秒
+            this.getPageDateTimeEntity();
         }
     }
 }

@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.uiLabel1 = new Sunny.UI.UILabel();
             this.uiLabel2 = new Sunny.UI.UILabel();
@@ -68,6 +68,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.uiNavBar2 = new Sunny.UI.UINavBar();
             this.uiGroupBox2 = new Sunny.UI.UIGroupBox();
+            this.uiWaitingBar1 = new Sunny.UI.UIWaitingBar();
             this.uiMarkLabel16 = new Sunny.UI.UIMarkLabel();
             this.uiMarkLabel15 = new Sunny.UI.UIMarkLabel();
             this.uiMarkLabel14 = new Sunny.UI.UIMarkLabel();
@@ -87,6 +88,9 @@
             this.uiTextBox1 = new Sunny.UI.UITextBox();
             this.uiSymbolButton1 = new Sunny.UI.UISymbolButton();
             this.uiLabel16 = new Sunny.UI.UILabel();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.timer3 = new System.Windows.Forms.Timer(this.components);
+            this.uiWaitingBar2 = new Sunny.UI.UIWaitingBar();
             this.uiTabControlMenu1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -155,7 +159,7 @@
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Interval = 1000;
+            this.timer1.Interval = 5000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // uiTabControlMenu1
@@ -167,13 +171,13 @@
             this.uiTabControlMenu1.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.uiTabControlMenu1.FillColor = System.Drawing.Color.DarkBlue;
             this.uiTabControlMenu1.Font = new System.Drawing.Font("黑体", 26F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiTabControlMenu1.ItemSize = new System.Drawing.Size(200, 100);
+            this.uiTabControlMenu1.ItemSize = new System.Drawing.Size(300, 100);
             this.uiTabControlMenu1.Location = new System.Drawing.Point(12, 125);
             this.uiTabControlMenu1.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
             this.uiTabControlMenu1.Multiline = true;
             this.uiTabControlMenu1.Name = "uiTabControlMenu1";
             this.uiTabControlMenu1.SelectedIndex = 0;
-            this.uiTabControlMenu1.Size = new System.Drawing.Size(1070, 561);
+            this.uiTabControlMenu1.Size = new System.Drawing.Size(1206, 561);
             this.uiTabControlMenu1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.uiTabControlMenu1.TabBackColor = System.Drawing.Color.DarkBlue;
             this.uiTabControlMenu1.TabIndex = 11;
@@ -186,6 +190,7 @@
             // 
             this.tabPage1.BackColor = System.Drawing.Color.DarkBlue;
             this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.tabPage1.Controls.Add(this.uiWaitingBar2);
             this.tabPage1.Controls.Add(this.uiNavBar1);
             this.tabPage1.Controls.Add(this.uiMarkLabel10);
             this.tabPage1.Controls.Add(this.uiMarkLabel9);
@@ -208,9 +213,9 @@
             this.tabPage1.Controls.Add(this.uiLabel8);
             this.tabPage1.Controls.Add(this.uiLabel7);
             this.tabPage1.Controls.Add(this.uiLabel6);
-            this.tabPage1.Location = new System.Drawing.Point(201, 0);
+            this.tabPage1.Location = new System.Drawing.Point(301, 0);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(869, 561);
+            this.tabPage1.Size = new System.Drawing.Size(905, 561);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "实时监控";
             // 
@@ -228,7 +233,7 @@
             this.uiNavBar1.NodeAlignment = System.Drawing.StringAlignment.Near;
             this.uiNavBar1.NodeInterval = 50;
             this.uiNavBar1.NodeSize = new System.Drawing.Size(150, 45);
-            this.uiNavBar1.Size = new System.Drawing.Size(865, 53);
+            this.uiNavBar1.Size = new System.Drawing.Size(901, 53);
             this.uiNavBar1.TabIndex = 41;
             this.uiNavBar1.Text = "uiNavBar1";
             this.uiNavBar1.MenuItemClick += new Sunny.UI.UINavBar.OnMenuItemClick(this.uiNavBar1_MenuItemClick);
@@ -507,9 +512,9 @@
             this.tabPage2.Controls.Add(this.uiNavBar2);
             this.tabPage2.Controls.Add(this.uiGroupBox2);
             this.tabPage2.Controls.Add(this.uiDataGridView1);
-            this.tabPage2.Location = new System.Drawing.Point(201, 0);
+            this.tabPage2.Location = new System.Drawing.Point(301, 0);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(869, 561);
+            this.tabPage2.Size = new System.Drawing.Size(905, 561);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "历史数据";
             // 
@@ -527,13 +532,14 @@
             this.uiNavBar2.NodeAlignment = System.Drawing.StringAlignment.Near;
             this.uiNavBar2.NodeInterval = 50;
             this.uiNavBar2.NodeSize = new System.Drawing.Size(150, 45);
-            this.uiNavBar2.Size = new System.Drawing.Size(865, 53);
+            this.uiNavBar2.Size = new System.Drawing.Size(901, 53);
             this.uiNavBar2.TabIndex = 42;
             this.uiNavBar2.Text = "uiNavBar2";
             this.uiNavBar2.MenuItemClick += new Sunny.UI.UINavBar.OnMenuItemClick(this.uiNavBar2_MenuItemClick);
             // 
             // uiGroupBox2
             // 
+            this.uiGroupBox2.Controls.Add(this.uiWaitingBar1);
             this.uiGroupBox2.Controls.Add(this.uiMarkLabel16);
             this.uiGroupBox2.Controls.Add(this.uiMarkLabel15);
             this.uiGroupBox2.Controls.Add(this.uiMarkLabel14);
@@ -554,10 +560,23 @@
             this.uiGroupBox2.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiGroupBox2.Name = "uiGroupBox2";
             this.uiGroupBox2.Padding = new System.Windows.Forms.Padding(0, 32, 0, 0);
-            this.uiGroupBox2.Size = new System.Drawing.Size(857, 160);
+            this.uiGroupBox2.Size = new System.Drawing.Size(893, 160);
             this.uiGroupBox2.TabIndex = 1;
             this.uiGroupBox2.Text = "工装历史数据汇总";
             this.uiGroupBox2.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // uiWaitingBar1
+            // 
+            this.uiWaitingBar1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
+            this.uiWaitingBar1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiWaitingBar1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
+            this.uiWaitingBar1.Location = new System.Drawing.Point(288, 136);
+            this.uiWaitingBar1.MinimumSize = new System.Drawing.Size(70, 23);
+            this.uiWaitingBar1.Name = "uiWaitingBar1";
+            this.uiWaitingBar1.Size = new System.Drawing.Size(300, 29);
+            this.uiWaitingBar1.TabIndex = 43;
+            this.uiWaitingBar1.Text = "uiWaitingBar1";
+            this.uiWaitingBar1.Visible = false;
             // 
             // uiMarkLabel16
             // 
@@ -719,48 +738,48 @@
             // 
             this.uiDataGridView1.AllowUserToAddRows = false;
             this.uiDataGridView1.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle31.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
-            this.uiDataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
+            this.uiDataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
             this.uiDataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.uiDataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.uiDataGridView1.BackgroundColor = System.Drawing.Color.White;
             this.uiDataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle32.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle32.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle32.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle32.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle32.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle32.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.uiDataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.uiDataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.uiDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle33.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle33.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle33.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle33.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle33.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle33.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.uiDataGridView1.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.uiDataGridView1.DefaultCellStyle = dataGridViewCellStyle8;
             this.uiDataGridView1.EnableHeadersVisualStyles = false;
             this.uiDataGridView1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiDataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
             this.uiDataGridView1.Location = new System.Drawing.Point(4, 238);
             this.uiDataGridView1.Name = "uiDataGridView1";
-            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle34.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle34.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle34.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            dataGridViewCellStyle34.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle34.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle34.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.uiDataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle34;
-            dataGridViewCellStyle35.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle35.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiDataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.uiDataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiDataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle10;
             this.uiDataGridView1.RowTemplate.Height = 23;
             this.uiDataGridView1.SelectedIndex = -1;
-            this.uiDataGridView1.Size = new System.Drawing.Size(858, 309);
+            this.uiDataGridView1.Size = new System.Drawing.Size(893, 309);
             this.uiDataGridView1.StripeOddColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
             this.uiDataGridView1.TabIndex = 0;
             // 
@@ -769,9 +788,9 @@
             this.tabPage3.BackColor = System.Drawing.Color.DarkBlue;
             this.tabPage3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.tabPage3.Controls.Add(this.uiGroupBox1);
-            this.tabPage3.Location = new System.Drawing.Point(201, 0);
+            this.tabPage3.Location = new System.Drawing.Point(301, 0);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(869, 561);
+            this.tabPage3.Size = new System.Drawing.Size(905, 561);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "系统配置";
             // 
@@ -851,12 +870,36 @@
             this.uiLabel16.Text = "设备编号：";
             this.uiLabel16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // timer2
+            // 
+            this.timer2.Interval = 60000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // timer3
+            // 
+            this.timer3.Enabled = true;
+            this.timer3.Interval = 1000;
+            this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
+            // 
+            // uiWaitingBar2
+            // 
+            this.uiWaitingBar2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
+            this.uiWaitingBar2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiWaitingBar2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
+            this.uiWaitingBar2.Location = new System.Drawing.Point(282, 215);
+            this.uiWaitingBar2.MinimumSize = new System.Drawing.Size(70, 23);
+            this.uiWaitingBar2.Name = "uiWaitingBar2";
+            this.uiWaitingBar2.Size = new System.Drawing.Size(300, 29);
+            this.uiWaitingBar2.TabIndex = 42;
+            this.uiWaitingBar2.Text = "uiWaitingBar2";
+            this.uiWaitingBar2.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkBlue;
-            this.ClientSize = new System.Drawing.Size(1094, 730);
+            this.ClientSize = new System.Drawing.Size(1230, 730);
             this.Controls.Add(this.uiTabControlMenu1);
             this.Controls.Add(this.uiLabel5);
             this.Controls.Add(this.uiLabel4);
@@ -864,7 +907,7 @@
             this.Controls.Add(this.uiLabel2);
             this.Controls.Add(this.uiLabel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "欧迪恩工装寿命监控系统";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -933,6 +976,10 @@
         private Sunny.UI.UIImageButton uiImageButton2;
         private Sunny.UI.UINavBar uiNavBar1;
         private Sunny.UI.UINavBar uiNavBar2;
+        private System.Windows.Forms.Timer timer2;
+        private Sunny.UI.UIWaitingBar uiWaitingBar1;
+        private System.Windows.Forms.Timer timer3;
+        private Sunny.UI.UIWaitingBar uiWaitingBar2;
     }
 }
 
