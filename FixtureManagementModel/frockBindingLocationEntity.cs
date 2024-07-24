@@ -42,5 +42,9 @@ namespace FixtureManagementModel
         /// 剩余次数
         /// </summary>
         public decimal remainLifeNum { get; set; }
+        /// <summary>
+        /// 基准寿命
+        /// </summary>
+        public decimal initialLifeNum { get; set;}
     }
 }

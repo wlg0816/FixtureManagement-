@@ -54,7 +54,6 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "WarningDialogForm";
-            this.ShowInTaskbar = false;
             this.Text = "WarningDialogForm";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

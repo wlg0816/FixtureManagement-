@@ -20,7 +20,9 @@ namespace FixtureManagementBLL.Service.Impl
 
             List<DeviceLocationEntity> list = new List<DeviceLocationEntity>();
 
-            if(obj != null)
+            FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("httpUtil", obj.ToString());
+
+            if (obj != null)
             {
                 foreach (var item in obj["data"])
                 {

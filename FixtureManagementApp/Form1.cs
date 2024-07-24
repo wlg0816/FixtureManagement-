@@ -3,6 +3,7 @@ using FixtureManagementModel.enums;
 using Sunny.UI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
@@ -136,7 +137,7 @@ namespace FixtureManagementApp
 
         public void uiWaitingBarDisplay(bool isShow)
         {
-            uiWaitingBar2.Visible = isShow;
+            //uiWaitingBar2.Visible = isShow;
         }
         /// <summary>
         /// 获取界面年月日、星期、时分秒
@@ -165,20 +166,36 @@ namespace FixtureManagementApp
 
             FixtureManagementBLL.Service.IMesFrockService frockService = new FixtureManagementBLL.Service.Impl.MesFrockImpl();
 
-            var frockEntity = frockService.getFrockLifeInfo(uiNavBar1SelectedIndexId);
-
-            this.sendMainPage(frockEntity);
-
-            handler(false);
-
-            if (frockEntity == null)
+            if (uiNavBar1SelectedIndexId == 0)
             {
-                this.ShowErrorNotifier("获取工装关联数据失败,请联系系统管理员！");
+                this.ShowErrorNotifier("获取当前设备绑定的工装列表信息失败！");
 
-                FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("MainMessage", "设备编号:"+deviceCode + ",获取工装关联数据失败!");
+                FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("MainMessage", "设备编号:" + deviceCode + ",获取设备绑定工装数据失败!");
 
                 return;
-            }           
+            }
+
+            Task task1 = Task.Run(() =>
+            {
+                // 设置委托
+                var frockEntity = frockService.getFrockLifeInfo(uiNavBar1SelectedIndexId);
+
+                this.sendMainPage(frockEntity);
+
+                handler(false);
+
+                if (frockEntity == null)
+                {
+                    this.ShowErrorNotifier("获取工装关联数据失败,请联系系统管理员！");
+
+                    FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("MainMessage", "设备编号:" + deviceCode + ",获取工装关联数据失败!");
+
+                    return;
+                }
+            });
+
+
+            
                
         }
         /// <summary>
@@ -418,7 +435,28 @@ namespace FixtureManagementApp
 
         public void remainLifeNumFun(List<DeviceLocationEntity> list)
         {
-            var remainLifeList= list.Where(o=>o.remainLifeNum==0).ToList();
+            var remainLifeList= new List<DeviceLocationEntity>();
+
+            Boolean isHalt = false;
+
+            var isWarnList = new List<DeviceLocationEntity>();
+
+            Boolean isWarn = false;
+            // 判断是否达到提醒
+            foreach(var item in list)
+            {
+                if(item.remainLifeNum == 0)
+                {
+                    isHalt = true;
+                    remainLifeList.Add(item);
+                    break;
+                }
+                if((item.remainLifeNum / item.initialLifeNum) <= new decimal(0.1))
+                {
+                    isWarn = true;
+                    isWarnList.Add(item);
+                }
+            };
 
             //读取XML的数据值
             FixtureManagementBLL.Service.IAppConfigPathSetService configPathSetService = new FixtureManagementBLL.Service.Impl.AppConfigPathSetImpl();
@@ -426,7 +464,7 @@ namespace FixtureManagementApp
             string deviceCode = configPathSetService.getAppConfigValue("deviceCode");
 
             // 根据接口数据打开或者关闭告警
-            if (remainLifeList.Count > 0)
+            if (isHalt)
             {
                 List<string> frockSns = remainLifeList.Select(p => p.frockSn).ToList();
                 //错误信息提示框;
@@ -442,10 +480,29 @@ namespace FixtureManagementApp
             }
             else
             {
-                //关闭错误信息提示框;
-                this.HideWarningDialog();
+                if (isWarn)
+                {
+                    //关闭错误信息提示框;
+                    this.HideWarningDialog();
 
-                updatePlcState(fockStateEnum.Soon.GetHashCode(), deviceCode);
+                    updatePlcState(fockStateEnum.Soon.GetHashCode(), deviceCode);
+
+                    List<string> frockSns = isWarnList.Select(p => p.frockSn).ToList();
+
+                    string message = string.Join(" , ", frockSns.ToArray()) + ",工装剩余寿命小于预设值!";
+
+                    this.ShowErrorNotifier(message);
+
+                    FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("ShowWarningDialog", message);
+                }
+                else
+                {
+                    //关闭错误信息提示框;
+                    this.HideWarningDialog();
+
+                    updatePlcState(fockStateEnum.Init.GetHashCode(), deviceCode);
+                }
+                
 
             }
         }
@@ -483,8 +540,13 @@ namespace FixtureManagementApp
 
         private void timer3_Tick(object sender, EventArgs e)
         {
+
+
+            Task.Run(() => getPageDateTimeEntity());
+
+
             // 获取界面年月日、星期、时分秒
-            this.getPageDateTimeEntity();
+            //this.getPageDateTimeEntity();
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +12,10 @@ namespace FixtureManagementBLL.UtilTool
 {
     public class HttpClientUtil
     {
+        public static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
+        {
+            return true;
+        }
         /// <summary>
         /// 创建GET请求
         /// </summary>
@@ -24,6 +30,7 @@ namespace FixtureManagementBLL.UtilTool
                 | SecurityProtocolType.Tls12
                 | SecurityProtocolType.Tls11
                 | SecurityProtocolType.Tls;
+            ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(CheckValidationResult);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Timeout = 20000;  //超时时间
             request.KeepAlive = true; //解决GetResponse操作超时问题
