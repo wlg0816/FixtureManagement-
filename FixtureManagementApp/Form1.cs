@@ -281,11 +281,14 @@ namespace FixtureManagementApp
             }
 
             FixtureManagementBLL.Service.IStandardModbusService standard = new FixtureManagementBLL.Service.Impl.StandardModbusImpl();
-
-            if (!standard.sendModeus(fockState,entity))
+            // 开启多线程
+            Task task1 = Task.Run(() =>
             {
-                FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("sendModeus", "更新PLC状态失败!");
-            }
+                if (!standard.sendModeus(fockState, entity))
+                {
+                    FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("sendModeus", "更新PLC状态失败!");
+                }
+            });
         }
         /// <summary>
         /// 获取历史的工装数据
