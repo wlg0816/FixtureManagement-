@@ -166,17 +166,17 @@ namespace FixtureManagementApp
 
             FixtureManagementBLL.Service.IMesFrockService frockService = new FixtureManagementBLL.Service.Impl.MesFrockImpl();
 
-            if (uiNavBar1SelectedIndexId == 0)
-            {
-                this.ShowErrorNotifier("获取当前设备绑定的工装列表信息失败！");
-
-                FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("MainMessage", "设备编号:" + deviceCode + ",获取设备绑定工装数据失败!");
-
-                return;
-            }
-
             Task task1 = Task.Run(() =>
             {
+                if (uiNavBar1SelectedIndexId == 0)
+                {
+                    this.ShowSuccessTip("获取当前设备绑定的工装列表信息失败！");
+
+                    FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("MainMessage", "设备编号:" + deviceCode + ",获取设备绑定工装数据失败!");
+
+                    return;
+                }
+
                 // 设置委托
                 var frockEntity = frockService.getFrockLifeInfo(uiNavBar1SelectedIndexId);
 
@@ -186,7 +186,7 @@ namespace FixtureManagementApp
 
                 if (frockEntity == null)
                 {
-                    this.ShowErrorNotifier("获取工装关联数据失败,请联系系统管理员！");
+                    this.ShowSuccessTip("获取工装关联数据失败,请联系系统管理员！");
 
                     FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("MainMessage", "设备编号:" + deviceCode + ",获取工装关联数据失败!");
 
