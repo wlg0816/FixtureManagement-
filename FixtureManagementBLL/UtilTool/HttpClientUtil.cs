@@ -32,7 +32,7 @@ namespace FixtureManagementBLL.UtilTool
                 | SecurityProtocolType.Tls;
             ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(CheckValidationResult);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Timeout = 5000;  //超时时间
+            request.Timeout = 15000;  //超时时间
             request.KeepAlive = true; //解决GetResponse操作超时问题
             request.Method = "GET";
             request.ContentType = "text/html, application/xhtml+xml, */*";

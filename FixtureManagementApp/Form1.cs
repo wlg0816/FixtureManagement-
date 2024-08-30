@@ -448,7 +448,7 @@ namespace FixtureManagementApp
             // 判断是否达到提醒
             foreach(var item in list)
             {
-                if(item.remainLifeNum == 0)
+                if(item.remainLifeNum <= 0)
                 {
                     isHalt = true;
                     remainLifeList.Add(item);
@@ -460,7 +460,6 @@ namespace FixtureManagementApp
                     isWarnList.Add(item);
                 }
             };
-
             //读取XML的数据值
             FixtureManagementBLL.Service.IAppConfigPathSetService configPathSetService = new FixtureManagementBLL.Service.Impl.AppConfigPathSetImpl();
 
@@ -477,7 +476,7 @@ namespace FixtureManagementApp
 
                 string message = string.Join(" , ", frockSns.ToArray()) + ",工装剩余寿命告警提示!";
 
-                this.ShowErrorNotifier(message);
+                this.ShowSuccessTip(message);
 
                 FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("ShowWarningDialog", message);
             }
@@ -494,7 +493,7 @@ namespace FixtureManagementApp
 
                     string message = string.Join(" , ", frockSns.ToArray()) + ",工装剩余寿命小于预设值!";
 
-                    this.ShowErrorNotifier(message);
+                    this.ShowSuccessTip(message);
 
                     FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("ShowWarningDialog", message);
                 }
