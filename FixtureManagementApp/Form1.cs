@@ -101,20 +101,20 @@ namespace FixtureManagementApp
         /// 获取历史数据选择
         /// </summary>
         public int selectHistoricalIndex;
-        private void timer1_Tick(object sender, EventArgs e)
-        {            
-            Thread threadAll = new Thread(new ThreadStart(getAllDeviceLocationTimer));//实例化一个线程
-
-            threadAll.IsBackground = true;//将线程改为后台线程
-
-            threadAll.Start();//开启线程
-
-            this.getMainEntity();
-        }
-
+    
         public delegate void OutDelegate(bool isShow);
 
         public delegate void ShowHistoricalSummary();
+        /// <summary>
+        /// 委托事件更新页面
+        /// </summary>
+        /// <param name="infoEntity"></param>
+        public delegate void PostMainPage(FixtureManagementModel.frockLifeInfoEntity infoEntity);
+        /// <summary>
+        /// 委托写入日志文件
+        /// </summary>
+        /// <param name="message"></param>
+        public delegate void sendSystemLog(string messageType, string message);
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -129,9 +129,9 @@ namespace FixtureManagementApp
             // 获取当前的配置信息
             this.getLocationList();
             // 绑定当前设备绑定位置(页签)
-            this.getAllDeviceLocation();
+            //this.getAllDeviceLocation();
             // 获取主界面展示数据
-            this.getMainEntity();
+            //this.getMainEntity();
 
         }
 
@@ -172,31 +172,32 @@ namespace FixtureManagementApp
                 {
                     this.ShowSuccessTip("获取当前设备绑定的工装列表信息失败！");
 
-                    FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("MainMessage", "设备编号:" + deviceCode + ",获取设备绑定工装数据失败!");
+                    sendSystemErrLog("MainMessage", "设备编号:" + deviceCode + ",获取设备绑定工装数据失败!");
 
                     return;
                 }
 
-                // 设置委托
                 var frockEntity = frockService.getFrockLifeInfo(uiNavBar1SelectedIndexId);
-
-                this.sendMainPage(frockEntity);
-
-                handler(false);
 
                 if (frockEntity == null)
                 {
                     this.ShowSuccessTip("获取工装关联数据失败,请联系系统管理员！");
 
-                    FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("MainMessage", "设备编号:" + deviceCode + ",获取工装关联数据失败!");
+                    sendSystemErrLog("MainMessage", "设备编号:" + deviceCode + ",获取工装关联数据失败!");
 
                     return;
                 }
-            });
+                // 设置委托
+                PostMainPage mainPage = new PostMainPage(sendMainPage);
 
+                this.Invoke(mainPage, frockEntity);
 
-            
-               
+                //this.sendMainPage(frockEntity);
+
+                handler(false);
+
+                
+            });       
         }
         /// <summary>
         /// 获取设备信息数据
@@ -286,7 +287,7 @@ namespace FixtureManagementApp
             {
                 if (!standard.sendModeus(fockState, entity))
                 {
-                    FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("sendModeus", "更新PLC状态失败!");
+                    sendSystemErrLog("sendModeus", "更新PLC状态失败!");
                 }
             });
         }
@@ -314,8 +315,10 @@ namespace FixtureManagementApp
                 }                
             }
             else
-            {
+            {               
                 this.ShowErrorNotifier("获取当前工装历史数据失败,请联系系统管理员！");
+                // 不更新数据
+                return;
             }
             uiDataGridView1.DataSource = dataTable;
 
@@ -377,7 +380,12 @@ namespace FixtureManagementApp
 
             FixtureManagementBLL.Service.IMesFrockService frockService=new FixtureManagementBLL.Service.Impl.MesFrockImpl();
 
-            var list= frockService.getDeviceLocationList(configPathSetService.getAppConfigValue("deviceCode"));        
+            var list= frockService.getDeviceLocationList(configPathSetService.getAppConfigValue("deviceCode"));
+
+            if (list.Count<=0)
+            {
+                return new List<DeviceLocationEntity>();
+            }
 
             this.uiNavBar1.Nodes.Clear();
 
@@ -478,7 +486,7 @@ namespace FixtureManagementApp
 
                 this.ShowSuccessTip(message);
 
-                FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("ShowWarningDialog", message);
+                sendSystemErrLog("ShowWarningDialog", message);
             }
             else
             {
@@ -495,7 +503,7 @@ namespace FixtureManagementApp
 
                     this.ShowSuccessTip(message);
 
-                    FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog("ShowWarningDialog", message);
+                    sendSystemErrLog("ShowWarningDialog", message);
                 }
                 else
                 {
@@ -523,7 +531,24 @@ namespace FixtureManagementApp
 
             uiWaitingBar1.Visible = false;
         }
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Thread threadAll = new Thread(new ThreadStart(getAllDeviceLocationTimer));//实例化一个线程
 
+            threadAll.IsBackground = true;//将线程改为后台线程
+
+            threadAll.Start();//开启线程
+
+            //threadAll.Join();
+
+            Thread thread = new Thread(new ThreadStart(getMainEntity));
+
+            thread.IsBackground = true;//将线程改为后台线程
+
+            thread.Start();//开启线程
+
+            //thread.Join();
+        }
         private void timer2_Tick(object sender, EventArgs e)
         {
 
@@ -533,6 +558,7 @@ namespace FixtureManagementApp
 
             thread.Start();//开启线程
 
+            //thread.Join();
             // 设置委托
             ShowHistoricalSummary showHistorical = getHistoricalSummaryFun;
 
@@ -542,13 +568,23 @@ namespace FixtureManagementApp
 
         private void timer3_Tick(object sender, EventArgs e)
         {
-
-
             Task.Run(() => getPageDateTimeEntity());
+        }
 
+        /// <summary>
+        /// 写入日志数据
+        /// </summary>
+        /// <param name="message"></param>
+        public void sendSystemErrLog(string messageType, string message)
+        {
+            sendSystemLog sendSystemLog = new sendSystemLog(sendSystemLogFun);
 
-            // 获取界面年月日、星期、时分秒
-            //this.getPageDateTimeEntity();
+            this.Invoke(sendSystemLog, messageType, message);
+        }
+
+        public void sendSystemLogFun(string messageType, string message)
+        {
+            FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog(messageType, message);
         }
     }
 }
