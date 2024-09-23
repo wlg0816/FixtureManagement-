@@ -547,7 +547,7 @@ namespace FixtureManagementApp
 
             thread.Start();//开启线程
 
-            //thread.Join();
+            thread.Join();
         }
         private void timer2_Tick(object sender, EventArgs e)
         {
@@ -558,7 +558,7 @@ namespace FixtureManagementApp
 
             thread.Start();//开启线程
 
-            //thread.Join();
+            thread.Join();
             // 设置委托
             ShowHistoricalSummary showHistorical = getHistoricalSummaryFun;
 
