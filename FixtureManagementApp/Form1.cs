@@ -518,6 +518,8 @@ namespace FixtureManagementApp
                 //this.ShowErrorDialog(message);
                 MessageBox.Show(message, "警告信息");
 
+                
+
                 sendSystemErrLog("工装信息不正确", message);
             }
             else
