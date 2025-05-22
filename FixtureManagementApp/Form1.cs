@@ -1,4 +1,5 @@
-﻿using FixtureManagementModel;
+﻿using FixtureManagementBLL.UtilTool;
+using FixtureManagementModel;
 using FixtureManagementModel.enums;
 using Sunny.UI;
 using System;
@@ -101,7 +102,11 @@ namespace FixtureManagementApp
         /// 获取历史数据选择
         /// </summary>
         public int selectHistoricalIndex;
-    
+        /// <summary>
+        /// 当前页签数据集合
+        /// </summary>
+        public static List<DeviceLocationEntity> deviceLocationList;
+
         public delegate void OutDelegate(bool isShow);
 
         public delegate void ShowHistoricalSummary();
@@ -178,6 +183,13 @@ namespace FixtureManagementApp
                 }
 
                 var frockEntity = frockService.getFrockLifeInfo(uiNavBar1SelectedIndexId);
+                // 判断当前填写的工装编号
+                var deviceLocation = deviceLocationList.FirstOrDefault(x => x.id == uiNavBar1SelectedIndexId);
+
+                if(deviceLocation != null)
+                {
+                    frockEntity.modelCode= deviceLocation.modelCode;
+                }
 
                 if (frockEntity == null)
                 {
@@ -244,6 +256,8 @@ namespace FixtureManagementApp
             uiMarkLabel10.Text = infoEntity != null ? infoEntity.usedCurrent.ToString() : "";
             // 剩余次数百分比
             uiProcessBar1.Value = infoEntity != null ? infoEntity.remainingLife : 0;
+            // 工装编号
+            uiTextBox2.Text = infoEntity != null&& infoEntity.modelCode!=null ? infoEntity.modelCode.ToString() : "";
 
         }
         /// <summary>
@@ -381,6 +395,11 @@ namespace FixtureManagementApp
             FixtureManagementBLL.Service.IMesFrockService frockService=new FixtureManagementBLL.Service.Impl.MesFrockImpl();
 
             var list= frockService.getDeviceLocationList(configPathSetService.getAppConfigValue("deviceCode"));
+            // 临时列表不为空
+            if (deviceLocationList == null && list.Count > 0)
+            {
+                deviceLocationList = list;
+            }
 
             if (list.Count<=0)
             {
@@ -453,6 +472,10 @@ namespace FixtureManagementApp
             var isWarnList = new List<DeviceLocationEntity>();
 
             Boolean isWarn = false;
+
+            var isErrorList = new List<DeviceLocationEntity>();
+
+            Boolean isError = false;
             // 判断是否达到提醒
             foreach(var item in list)
             {
@@ -467,39 +490,48 @@ namespace FixtureManagementApp
                     isWarn = true;
                     isWarnList.Add(item);
                 }
+                
             };
+            foreach(var item in list)
+            {
+                var obj =deviceLocationList.FindLast(o=>o.id== item.id);
+               
+                if (!item.frockOaSn.Equals(obj.modelCode))
+                {
+                    isError = true;
+                    isErrorList.Add(item);
+                }
+            }
             //读取XML的数据值
             FixtureManagementBLL.Service.IAppConfigPathSetService configPathSetService = new FixtureManagementBLL.Service.Impl.AppConfigPathSetImpl();
 
             string deviceCode = configPathSetService.getAppConfigValue("deviceCode");
-
-            // 根据接口数据打开或者关闭告警
-            if (isHalt)
+            // 判断工装模具是不是不符
+            if (isError)
             {
-                List<string> frockSns = remainLifeList.Select(p => p.frockSn).ToList();
-                //错误信息提示框;
-                this.ShowWarningDialog();
+                updatePlcState(fockStateEnum.Error.GetHashCode(), deviceCode);
+                // 填写的工装编号和实际的不符
+                List<string> frockSns = isErrorList.Select(p => p.frockSn).ToList();
 
-                updatePlcState(fockStateEnum.Already.GetHashCode(), deviceCode);
+                string message = string.Join(" , ", frockSns.ToArray()) + ",工装型号不匹配!";
 
-                string message = string.Join(" , ", frockSns.ToArray()) + ",工装剩余寿命告警提示!";
+                //this.ShowErrorDialog(message);
+                MessageBox.Show(message, "警告信息");
 
-                this.ShowSuccessTip(message);
-
-                sendSystemErrLog("ShowWarningDialog", message);
+                sendSystemErrLog("工装信息不正确", message);
             }
             else
             {
-                if (isWarn)
+                // 根据接口数据打开或者关闭告警
+                if (isHalt)
                 {
-                    //关闭错误信息提示框;
-                    this.HideWarningDialog();
+                    List<string> frockSns = remainLifeList.Select(p => p.frockSn).ToList();
+                    //错误信息提示框;
+                    this.ShowWarningDialog();
 
-                    updatePlcState(fockStateEnum.Soon.GetHashCode(), deviceCode);
+                    updatePlcState(fockStateEnum.Already.GetHashCode(), deviceCode);
 
-                    List<string> frockSns = isWarnList.Select(p => p.frockSn).ToList();
-
-                    string message = string.Join(" , ", frockSns.ToArray()) + ",工装剩余寿命小于预设值!";
+                    string message = string.Join(" , ", frockSns.ToArray()) + ",工装剩余寿命告警提示!";
 
                     this.ShowSuccessTip(message);
 
@@ -507,14 +539,33 @@ namespace FixtureManagementApp
                 }
                 else
                 {
-                    //关闭错误信息提示框;
-                    this.HideWarningDialog();
+                    if (isWarn)
+                    {
+                        //关闭错误信息提示框;
+                        this.HideWarningDialog();
 
-                    updatePlcState(fockStateEnum.Init.GetHashCode(), deviceCode);
+                        updatePlcState(fockStateEnum.Soon.GetHashCode(), deviceCode);
+
+                        List<string> frockSns = isWarnList.Select(p => p.frockSn).ToList();
+
+                        string message = string.Join(" , ", frockSns.ToArray()) + ",工装剩余寿命小于预设值!";
+
+                        this.ShowSuccessTip(message);
+
+                        sendSystemErrLog("ShowWarningDialog", message);
+                    }
+                    else
+                    {
+
+                        //关闭错误信息提示框;
+                        this.HideWarningDialog();
+
+                        updatePlcState(fockStateEnum.Init.GetHashCode(), deviceCode);
+                    }
+
+
                 }
-                
-
-            }
+            }          
         }
         /// <summary>
         /// 获取历史的数据
@@ -585,6 +636,11 @@ namespace FixtureManagementApp
         public void sendSystemLogFun(string messageType, string message)
         {
             FixtureManagementBLL.UtilTool.NetLogUtil.WriteTextLog(messageType, message);
+        }
+
+        private void uiTextBox2_TextChanged(object sender, EventArgs e)
+        {
+            deviceLocationList[uiNavBar1.SelectedIndex].modelCode = uiTextBox2.Text;
         }
     }
 }

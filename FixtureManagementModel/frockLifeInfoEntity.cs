@@ -17,6 +17,10 @@ namespace FixtureManagementModel
         /// </summary>
         public string frockSn { get; set; }
         /// <summary>
+        /// 配套工装编号
+        /// </summary>
+        public string frockOaSn { get; set; }
+        /// <summary>
         /// 设备名称
         /// </summary>
         public string eqpName { get; set; }
@@ -60,5 +64,9 @@ namespace FixtureManagementModel
         /// 生命周期基准
         /// </summary>
         public decimal initialLifeNum { get; set; }
+        /// <summary>
+        /// 工装编号
+        /// </summary>
+        public string modelCode { get; set; }
     }
 }

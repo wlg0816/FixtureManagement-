@@ -19,6 +19,11 @@ namespace FixtureManagementModel.enums
         /// <summary>
         /// 到达
         /// </summary>
-        Already=2
+        Already=2,
+        /// <summary>
+        /// 工装不符
+        /// </summary>
+        Error=3
+
     }
 }

@@ -35,6 +35,10 @@ namespace FixtureManagementModel
         /// </summary>
         public string frockName { get; set; }
         /// <summary>
+        /// 配套工装编号
+        /// </summary>
+        public string frockOaSn { get; set; }
+        /// <summary>
         /// 工装编码
         /// </summary>
         public string frockSn { get; set; }
@@ -46,5 +50,9 @@ namespace FixtureManagementModel
         /// 基准寿命
         /// </summary>
         public decimal initialLifeNum { get; set;}
+        /// <summary>
+        /// 模具编号（用于校验）
+        /// </summary>
+        public string modelCode { get; set; }
     }
 }
