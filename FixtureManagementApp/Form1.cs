@@ -68,6 +68,15 @@ namespace FixtureManagementApp
         }
         #endregion
 
+        [System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true)]
+        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        // 发送消息
+        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+        // 关闭消息
+        private const uint WM_CLOSE = 0x0010;
         public Form1()
         {
             InitializeComponent();
@@ -515,10 +524,7 @@ namespace FixtureManagementApp
 
                 string message = string.Join(" , ", frockSns.ToArray()) + ",工装型号不匹配!";
 
-                //this.ShowErrorDialog(message);
-                MessageBox.Show(message, "警告信息");
-
-                
+                ShowMessage(message, 6);
 
                 sendSystemErrLog("工装信息不正确", message);
             }
@@ -643,6 +649,43 @@ namespace FixtureManagementApp
         private void uiTextBox2_TextChanged(object sender, EventArgs e)
         {
             deviceLocationList[uiNavBar1.SelectedIndex].modelCode = uiTextBox2.Text;
+        }
+
+
+        private void ShowMessage(string sMsg, int nSecondCount)
+        {
+            // 创建一个线程来执行倒计时操作
+            Thread thread = new Thread(() =>
+            {
+                // 倒计时3秒
+                Thread.Sleep(nSecondCount * 1000);
+
+                // 关闭MessageBox
+                if (InvokeRequired)
+                {
+                    Invoke(new Action(() => { CloseMessageBox(); }));
+                }
+                else
+                {
+                    CloseMessageBox();
+                }
+            });
+
+            // 启动线程
+            thread.Start();
+
+            // 弹出MessageBox提示框，注意：这里的标题必须与下方查找关闭MessageBox里的标题一致。
+            MessageBox.Show(sMsg, "完成提示");
+        }
+
+        private void CloseMessageBox()
+        {
+            // 查找并关闭MessageBox窗口
+            IntPtr hwnd = FindWindow(null, "完成提示");//一致
+            if (hwnd != IntPtr.Zero)
+            {
+                SendMessage(hwnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+            }
         }
     }
 }
