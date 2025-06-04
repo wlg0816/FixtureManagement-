@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.uiLabel1 = new Sunny.UI.UILabel();
             this.uiLabel2 = new Sunny.UI.UILabel();
@@ -43,6 +43,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.uiTabControlMenu1 = new Sunny.UI.UITabControlMenu();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.uiTextBox2 = new Sunny.UI.UITextBox();
             this.uiNavBar1 = new Sunny.UI.UINavBar();
             this.uiMarkLabel10 = new Sunny.UI.UIMarkLabel();
             this.uiMarkLabel9 = new Sunny.UI.UIMarkLabel();
@@ -55,6 +56,7 @@
             this.uiMarkLabel2 = new Sunny.UI.UIMarkLabel();
             this.uiMarkLabel1 = new Sunny.UI.UIMarkLabel();
             this.uiProcessBar1 = new Sunny.UI.UIProcessBar();
+            this.uiLabel17 = new Sunny.UI.UILabel();
             this.uiLabel15 = new Sunny.UI.UILabel();
             this.uiLabel14 = new Sunny.UI.UILabel();
             this.uiLabel13 = new Sunny.UI.UILabel();
@@ -90,8 +92,6 @@
             this.uiLabel16 = new Sunny.UI.UILabel();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.timer3 = new System.Windows.Forms.Timer(this.components);
-            this.uiLabel17 = new Sunny.UI.UILabel();
-            this.uiTextBox2 = new Sunny.UI.UITextBox();
             this.uiTabControlMenu1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -221,6 +221,22 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "实时监控";
             // 
+            // uiTextBox2
+            // 
+            this.uiTextBox2.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.uiTextBox2.Font = new System.Drawing.Font("楷体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiTextBox2.Location = new System.Drawing.Point(374, 551);
+            this.uiTextBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.uiTextBox2.MinimumSize = new System.Drawing.Size(1, 16);
+            this.uiTextBox2.Name = "uiTextBox2";
+            this.uiTextBox2.Padding = new System.Windows.Forms.Padding(5);
+            this.uiTextBox2.ShowText = false;
+            this.uiTextBox2.Size = new System.Drawing.Size(318, 43);
+            this.uiTextBox2.TabIndex = 42;
+            this.uiTextBox2.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiTextBox2.Watermark = "请输入工装编号";
+            this.uiTextBox2.TextChanged += new System.EventHandler(this.uiTextBox2_TextChanged);
+            // 
             // uiNavBar1
             // 
             this.uiNavBar1.BackColor = System.Drawing.Color.DarkBlue;
@@ -242,9 +258,9 @@
             // 
             // uiMarkLabel10
             // 
-            this.uiMarkLabel10.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiMarkLabel10.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiMarkLabel10.ForeColor = System.Drawing.Color.White;
-            this.uiMarkLabel10.Location = new System.Drawing.Point(1132, 465);
+            this.uiMarkLabel10.Location = new System.Drawing.Point(1163, 467);
             this.uiMarkLabel10.MarkColor = System.Drawing.Color.Cyan;
             this.uiMarkLabel10.MarkPos = Sunny.UI.UIMarkLabel.UIMarkPos.Bottom;
             this.uiMarkLabel10.Name = "uiMarkLabel10";
@@ -255,9 +271,9 @@
             // 
             // uiMarkLabel9
             // 
-            this.uiMarkLabel9.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiMarkLabel9.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiMarkLabel9.ForeColor = System.Drawing.Color.White;
-            this.uiMarkLabel9.Location = new System.Drawing.Point(354, 465);
+            this.uiMarkLabel9.Location = new System.Drawing.Point(375, 467);
             this.uiMarkLabel9.MarkColor = System.Drawing.Color.Cyan;
             this.uiMarkLabel9.MarkPos = Sunny.UI.UIMarkLabel.UIMarkPos.Bottom;
             this.uiMarkLabel9.Name = "uiMarkLabel9";
@@ -268,9 +284,9 @@
             // 
             // uiMarkLabel8
             // 
-            this.uiMarkLabel8.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiMarkLabel8.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiMarkLabel8.ForeColor = System.Drawing.Color.White;
-            this.uiMarkLabel8.Location = new System.Drawing.Point(1132, 390);
+            this.uiMarkLabel8.Location = new System.Drawing.Point(1163, 389);
             this.uiMarkLabel8.MarkColor = System.Drawing.Color.Cyan;
             this.uiMarkLabel8.MarkPos = Sunny.UI.UIMarkLabel.UIMarkPos.Bottom;
             this.uiMarkLabel8.Name = "uiMarkLabel8";
@@ -281,9 +297,9 @@
             // 
             // uiMarkLabel7
             // 
-            this.uiMarkLabel7.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiMarkLabel7.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiMarkLabel7.ForeColor = System.Drawing.Color.White;
-            this.uiMarkLabel7.Location = new System.Drawing.Point(354, 390);
+            this.uiMarkLabel7.Location = new System.Drawing.Point(375, 389);
             this.uiMarkLabel7.MarkColor = System.Drawing.Color.Cyan;
             this.uiMarkLabel7.MarkPos = Sunny.UI.UIMarkLabel.UIMarkPos.Bottom;
             this.uiMarkLabel7.Name = "uiMarkLabel7";
@@ -294,9 +310,9 @@
             // 
             // uiMarkLabel6
             // 
-            this.uiMarkLabel6.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiMarkLabel6.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiMarkLabel6.ForeColor = System.Drawing.Color.White;
-            this.uiMarkLabel6.Location = new System.Drawing.Point(1132, 307);
+            this.uiMarkLabel6.Location = new System.Drawing.Point(1163, 304);
             this.uiMarkLabel6.MarkColor = System.Drawing.Color.Cyan;
             this.uiMarkLabel6.MarkPos = Sunny.UI.UIMarkLabel.UIMarkPos.Bottom;
             this.uiMarkLabel6.Name = "uiMarkLabel6";
@@ -307,9 +323,9 @@
             // 
             // uiMarkLabel5
             // 
-            this.uiMarkLabel5.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiMarkLabel5.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiMarkLabel5.ForeColor = System.Drawing.Color.White;
-            this.uiMarkLabel5.Location = new System.Drawing.Point(354, 305);
+            this.uiMarkLabel5.Location = new System.Drawing.Point(375, 304);
             this.uiMarkLabel5.MarkColor = System.Drawing.Color.Cyan;
             this.uiMarkLabel5.MarkPos = Sunny.UI.UIMarkLabel.UIMarkPos.Bottom;
             this.uiMarkLabel5.Name = "uiMarkLabel5";
@@ -320,9 +336,9 @@
             // 
             // uiMarkLabel4
             // 
-            this.uiMarkLabel4.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiMarkLabel4.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiMarkLabel4.ForeColor = System.Drawing.Color.White;
-            this.uiMarkLabel4.Location = new System.Drawing.Point(1132, 222);
+            this.uiMarkLabel4.Location = new System.Drawing.Point(1163, 223);
             this.uiMarkLabel4.MarkColor = System.Drawing.Color.Cyan;
             this.uiMarkLabel4.MarkPos = Sunny.UI.UIMarkLabel.UIMarkPos.Bottom;
             this.uiMarkLabel4.Name = "uiMarkLabel4";
@@ -333,9 +349,9 @@
             // 
             // uiMarkLabel3
             // 
-            this.uiMarkLabel3.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiMarkLabel3.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiMarkLabel3.ForeColor = System.Drawing.Color.White;
-            this.uiMarkLabel3.Location = new System.Drawing.Point(354, 224);
+            this.uiMarkLabel3.Location = new System.Drawing.Point(375, 223);
             this.uiMarkLabel3.MarkColor = System.Drawing.Color.Cyan;
             this.uiMarkLabel3.MarkPos = Sunny.UI.UIMarkLabel.UIMarkPos.Bottom;
             this.uiMarkLabel3.Name = "uiMarkLabel3";
@@ -346,9 +362,9 @@
             // 
             // uiMarkLabel2
             // 
-            this.uiMarkLabel2.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiMarkLabel2.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiMarkLabel2.ForeColor = System.Drawing.Color.White;
-            this.uiMarkLabel2.Location = new System.Drawing.Point(1132, 150);
+            this.uiMarkLabel2.Location = new System.Drawing.Point(1163, 150);
             this.uiMarkLabel2.MarkColor = System.Drawing.Color.Cyan;
             this.uiMarkLabel2.MarkPos = Sunny.UI.UIMarkLabel.UIMarkPos.Bottom;
             this.uiMarkLabel2.Name = "uiMarkLabel2";
@@ -359,9 +375,9 @@
             // 
             // uiMarkLabel1
             // 
-            this.uiMarkLabel1.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiMarkLabel1.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiMarkLabel1.ForeColor = System.Drawing.Color.White;
-            this.uiMarkLabel1.Location = new System.Drawing.Point(354, 150);
+            this.uiMarkLabel1.Location = new System.Drawing.Point(375, 149);
             this.uiMarkLabel1.MarkColor = System.Drawing.Color.Cyan;
             this.uiMarkLabel1.MarkPos = Sunny.UI.UIMarkLabel.UIMarkPos.Bottom;
             this.uiMarkLabel1.Name = "uiMarkLabel1";
@@ -377,7 +393,7 @@
             this.uiProcessBar1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.uiProcessBar1.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiProcessBar1.ForeColor = System.Drawing.Color.Crimson;
-            this.uiProcessBar1.Location = new System.Drawing.Point(206, 754);
+            this.uiProcessBar1.Location = new System.Drawing.Point(207, 695);
             this.uiProcessBar1.Maximum = 10000;
             this.uiProcessBar1.MinimumSize = new System.Drawing.Size(70, 3);
             this.uiProcessBar1.Name = "uiProcessBar1";
@@ -387,20 +403,31 @@
             this.uiProcessBar1.Text = "uiProcessBar1";
             this.uiProcessBar1.Value = 10000;
             // 
+            // uiLabel17
+            // 
+            this.uiLabel17.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel17.ForeColor = System.Drawing.Color.White;
+            this.uiLabel17.Location = new System.Drawing.Point(201, 551);
+            this.uiLabel17.Name = "uiLabel17";
+            this.uiLabel17.Size = new System.Drawing.Size(194, 43);
+            this.uiLabel17.TabIndex = 38;
+            this.uiLabel17.Text = "工装编号：";
+            this.uiLabel17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // uiLabel15
             // 
-            this.uiLabel15.Font = new System.Drawing.Font("宋体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel15.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel15.ForeColor = System.Drawing.Color.White;
             this.uiLabel15.Location = new System.Drawing.Point(961, 467);
             this.uiLabel15.Name = "uiLabel15";
-            this.uiLabel15.Size = new System.Drawing.Size(260, 43);
+            this.uiLabel15.Size = new System.Drawing.Size(201, 43);
             this.uiLabel15.TabIndex = 38;
             this.uiLabel15.Text = "本次使用：";
             this.uiLabel15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // uiLabel14
             // 
-            this.uiLabel14.Font = new System.Drawing.Font("宋体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel14.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel14.ForeColor = System.Drawing.Color.White;
             this.uiLabel14.Location = new System.Drawing.Point(201, 467);
             this.uiLabel14.Name = "uiLabel14";
@@ -411,18 +438,18 @@
             // 
             // uiLabel13
             // 
-            this.uiLabel13.Font = new System.Drawing.Font("宋体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel13.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel13.ForeColor = System.Drawing.Color.White;
             this.uiLabel13.Location = new System.Drawing.Point(961, 390);
             this.uiLabel13.Name = "uiLabel13";
-            this.uiLabel13.Size = new System.Drawing.Size(260, 43);
+            this.uiLabel13.Size = new System.Drawing.Size(201, 43);
             this.uiLabel13.TabIndex = 37;
             this.uiLabel13.Text = "累计使用：";
             this.uiLabel13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // uiLabel12
             // 
-            this.uiLabel12.Font = new System.Drawing.Font("宋体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel12.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel12.ForeColor = System.Drawing.Color.White;
             this.uiLabel12.Location = new System.Drawing.Point(201, 390);
             this.uiLabel12.Name = "uiLabel12";
@@ -433,18 +460,18 @@
             // 
             // uiLabel11
             // 
-            this.uiLabel11.Font = new System.Drawing.Font("宋体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel11.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel11.ForeColor = System.Drawing.Color.White;
             this.uiLabel11.Location = new System.Drawing.Point(961, 307);
             this.uiLabel11.Name = "uiLabel11";
-            this.uiLabel11.Size = new System.Drawing.Size(260, 43);
+            this.uiLabel11.Size = new System.Drawing.Size(201, 43);
             this.uiLabel11.TabIndex = 35;
             this.uiLabel11.Text = "员工工号：";
             this.uiLabel11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // uiLabel10
             // 
-            this.uiLabel10.Font = new System.Drawing.Font("宋体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel10.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel10.ForeColor = System.Drawing.Color.White;
             this.uiLabel10.Location = new System.Drawing.Point(201, 307);
             this.uiLabel10.Name = "uiLabel10";
@@ -455,18 +482,18 @@
             // 
             // uiLabel9
             // 
-            this.uiLabel9.Font = new System.Drawing.Font("宋体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel9.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel9.ForeColor = System.Drawing.Color.White;
             this.uiLabel9.Location = new System.Drawing.Point(961, 224);
             this.uiLabel9.Name = "uiLabel9";
-            this.uiLabel9.Size = new System.Drawing.Size(260, 43);
+            this.uiLabel9.Size = new System.Drawing.Size(201, 43);
             this.uiLabel9.TabIndex = 33;
             this.uiLabel9.Text = "设备编号：";
             this.uiLabel9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // uiLabel8
             // 
-            this.uiLabel8.Font = new System.Drawing.Font("宋体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel8.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel8.ForeColor = System.Drawing.Color.White;
             this.uiLabel8.Location = new System.Drawing.Point(201, 224);
             this.uiLabel8.Name = "uiLabel8";
@@ -477,18 +504,18 @@
             // 
             // uiLabel7
             // 
-            this.uiLabel7.Font = new System.Drawing.Font("宋体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel7.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel7.ForeColor = System.Drawing.Color.White;
             this.uiLabel7.Location = new System.Drawing.Point(961, 150);
             this.uiLabel7.Name = "uiLabel7";
-            this.uiLabel7.Size = new System.Drawing.Size(318, 43);
+            this.uiLabel7.Size = new System.Drawing.Size(259, 43);
             this.uiLabel7.TabIndex = 31;
             this.uiLabel7.Text = "工装流水号：";
             this.uiLabel7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // uiLabel6
             // 
-            this.uiLabel6.Font = new System.Drawing.Font("宋体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel6.Font = new System.Drawing.Font("宋体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel6.ForeColor = System.Drawing.Color.White;
             this.uiLabel6.Location = new System.Drawing.Point(201, 150);
             this.uiLabel6.Name = "uiLabel6";
@@ -730,45 +757,45 @@
             // 
             this.uiDataGridView1.AllowUserToAddRows = false;
             this.uiDataGridView1.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle26.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
-            this.uiDataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
+            this.uiDataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.uiDataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.uiDataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.uiDataGridView1.BackgroundColor = System.Drawing.Color.White;
             this.uiDataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle27.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle27.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle27.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle27.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle27.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.uiDataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.uiDataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.uiDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle28.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle28.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle28.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle28.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle28.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.uiDataGridView1.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.uiDataGridView1.DefaultCellStyle = dataGridViewCellStyle3;
             this.uiDataGridView1.EnableHeadersVisualStyles = false;
             this.uiDataGridView1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiDataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
             this.uiDataGridView1.Location = new System.Drawing.Point(282, 245);
             this.uiDataGridView1.Name = "uiDataGridView1";
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle29.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle29.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle29.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            dataGridViewCellStyle29.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle29.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.uiDataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle29;
-            dataGridViewCellStyle30.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle30.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiDataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.uiDataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiDataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.uiDataGridView1.RowTemplate.Height = 23;
             this.uiDataGridView1.SelectedIndex = -1;
             this.uiDataGridView1.Size = new System.Drawing.Size(1171, 615);
@@ -873,33 +900,6 @@
             this.timer3.Interval = 10000;
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
             // 
-            // uiLabel17
-            // 
-            this.uiLabel17.Font = new System.Drawing.Font("宋体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabel17.ForeColor = System.Drawing.Color.White;
-            this.uiLabel17.Location = new System.Drawing.Point(201, 560);
-            this.uiLabel17.Name = "uiLabel17";
-            this.uiLabel17.Size = new System.Drawing.Size(157, 43);
-            this.uiLabel17.TabIndex = 38;
-            this.uiLabel17.Text = "工装编号：";
-            this.uiLabel17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // uiTextBox2
-            // 
-            this.uiTextBox2.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.uiTextBox2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiTextBox2.Location = new System.Drawing.Point(360, 565);
-            this.uiTextBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiTextBox2.MinimumSize = new System.Drawing.Size(1, 16);
-            this.uiTextBox2.Name = "uiTextBox2";
-            this.uiTextBox2.Padding = new System.Windows.Forms.Padding(5);
-            this.uiTextBox2.ShowText = false;
-            this.uiTextBox2.Size = new System.Drawing.Size(311, 29);
-            this.uiTextBox2.TabIndex = 42;
-            this.uiTextBox2.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiTextBox2.Watermark = "请输入工装编号";
-            this.uiTextBox2.TextChanged += new System.EventHandler(this.uiTextBox2_TextChanged);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -913,7 +913,6 @@
             this.Controls.Add(this.uiLabel2);
             this.Controls.Add(this.uiLabel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "欧迪恩工装寿命监控系统";
             this.Load += new System.EventHandler(this.Form1_Load);
