@@ -16,28 +16,14 @@ namespace FixtureManagementBLL.Service.Impl
     {
         public List<DeviceLocationEntity> getDeviceLocationList(string deviceCode)
         {
-            ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
+            Ping pingSender = new Ping();
 
-            ManagementObjectCollection nics = mc.GetInstances();
+            PingReply reply = pingSender.Send("10.88.228.17", 120);
 
-            foreach (ManagementObject nic in nics)
+            if (reply.Status != IPStatus.Success)
             {
-                if (Convert.ToBoolean(nic["ipEnabled"]) == true)
-                {
-                    string ipgateway = (nic["DefaultIPGateway"] as String[])[0];//默认网关
-
-                    Ping pingSender = new Ping();
-
-                    PingReply reply = pingSender.Send(ipgateway, 120);
-
-                    if (reply.Status != IPStatus.Success)
-                    {
-                        return new List<DeviceLocationEntity>();
-                    }
-                }
+                return new List<DeviceLocationEntity>();
             }
-
-
 
             string url = "/blade-eqp/frockLoan/getBindingFrock?eqpSn=" + deviceCode;
 
@@ -58,25 +44,13 @@ namespace FixtureManagementBLL.Service.Impl
 
         public frockLifeInfoEntity getFrockLifeInfo(long id)
         {
-            ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
+            Ping pingSender = new Ping();
 
-            ManagementObjectCollection nics = mc.GetInstances();
+            PingReply reply = pingSender.Send("10.88.228.17", 120);
 
-            foreach (ManagementObject nic in nics)
+            if (reply.Status != IPStatus.Success)
             {
-                if (Convert.ToBoolean(nic["ipEnabled"]) == true)
-                {
-                    string ipgateway = (nic["DefaultIPGateway"] as String[])[0];//默认网关
-
-                    Ping pingSender = new Ping();
-
-                    PingReply reply = pingSender.Send(ipgateway, 120);
-
-                    if (reply.Status != IPStatus.Success)
-                    {
-                        return new frockLifeInfoEntity();
-                    }
-                }
+                return new frockLifeInfoEntity();
             }
 
             string url = "/blade-eqp/frockLoan/getFrockLifeInfo?id=" + id;
@@ -88,25 +62,13 @@ namespace FixtureManagementBLL.Service.Impl
 
         public historicalSummaryEntity getHistoricalSummaryEntity(long id)
         {
-            ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
+            Ping pingSender = new Ping();
 
-            ManagementObjectCollection nics = mc.GetInstances();
+            PingReply reply = pingSender.Send("10.88.228.17", 120);
 
-            foreach (ManagementObject nic in nics)
+            if (reply.Status != IPStatus.Success)
             {
-                if (Convert.ToBoolean(nic["ipEnabled"]) == true)
-                {
-                    string ipgateway = (nic["DefaultIPGateway"] as String[])[0];//默认网关
-
-                    Ping pingSender = new Ping();
-
-                    PingReply reply = pingSender.Send(ipgateway, 120);
-
-                    if (reply.Status != IPStatus.Success)
-                    {
-                        return new historicalSummaryEntity();
-                    }
-                }
+                return new historicalSummaryEntity();
             }
 
             string url = "/blade-eqp/frockLoan/getOperateHis?id=" + id;
