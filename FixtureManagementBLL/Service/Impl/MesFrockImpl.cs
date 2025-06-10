@@ -5,6 +5,8 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +16,29 @@ namespace FixtureManagementBLL.Service.Impl
     {
         public List<DeviceLocationEntity> getDeviceLocationList(string deviceCode)
         {
+            ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
+
+            ManagementObjectCollection nics = mc.GetInstances();
+
+            foreach (ManagementObject nic in nics)
+            {
+                if (Convert.ToBoolean(nic["ipEnabled"]) == true)
+                {
+                    string ipgateway = (nic["DefaultIPGateway"] as String[])[0];//默认网关
+
+                    Ping pingSender = new Ping();
+
+                    PingReply reply = pingSender.Send(ipgateway, 120);
+
+                    if(reply.Status != IPStatus.Success)
+                    {
+                        return new List<DeviceLocationEntity>();
+                    }
+                }
+            }
+
+            
+
             string url = "/blade-eqp/frockLoan/getBindingFrock?eqpSn=" + deviceCode;
 
             JObject obj = (JObject)JsonConvert.DeserializeObject(HttpClientUtil.GetRequest(url));
@@ -33,6 +58,27 @@ namespace FixtureManagementBLL.Service.Impl
 
         public frockLifeInfoEntity getFrockLifeInfo(long id)
         {
+            ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
+
+            ManagementObjectCollection nics = mc.GetInstances();
+
+            foreach (ManagementObject nic in nics)
+            {
+                if (Convert.ToBoolean(nic["ipEnabled"]) == true)
+                {
+                    string ipgateway = (nic["DefaultIPGateway"] as String[])[0];//默认网关
+
+                    Ping pingSender = new Ping();
+
+                    PingReply reply = pingSender.Send(ipgateway, 120);
+
+                    if (reply.Status != IPStatus.Success)
+                    {
+                        return new frockLifeInfoEntity();
+                    }
+                }
+            }
+
             string url = "/blade-eqp/frockLoan/getFrockLifeInfo?id="+ id;
 
             JObject obj = (JObject)JsonConvert.DeserializeObject(HttpClientUtil.GetRequest(url));
@@ -42,6 +88,27 @@ namespace FixtureManagementBLL.Service.Impl
 
         public historicalSummaryEntity getHistoricalSummaryEntity(long id)
         {
+            ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
+
+            ManagementObjectCollection nics = mc.GetInstances();
+
+            foreach (ManagementObject nic in nics)
+            {
+                if (Convert.ToBoolean(nic["ipEnabled"]) == true)
+                {
+                    string ipgateway = (nic["DefaultIPGateway"] as String[])[0];//默认网关
+
+                    Ping pingSender = new Ping();
+
+                    PingReply reply = pingSender.Send(ipgateway, 120);
+
+                    if (reply.Status != IPStatus.Success)
+                    {
+                        return new historicalSummaryEntity();
+                    }
+                }
+            }
+
             string url = "/blade-eqp/frockLoan/getOperateHis?id="+id;
 
             JObject obj = (JObject)JsonConvert.DeserializeObject(HttpClientUtil.GetRequest(url));
@@ -50,8 +117,8 @@ namespace FixtureManagementBLL.Service.Impl
         }
 
         public List<frockBindingLocationEntity> getLocationAllList()
-        {
-            using(FixtureManagementDAL.devicePlcEntityContext db = new FixtureManagementDAL.devicePlcEntityContext())
+        {           
+            using (FixtureManagementDAL.devicePlcEntityContext db = new FixtureManagementDAL.devicePlcEntityContext())
             {
                 return db.frockBindingLocation.Where(o=>!o.isDel).ToList();
             }
