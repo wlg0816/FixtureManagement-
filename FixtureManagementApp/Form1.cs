@@ -10,6 +10,7 @@ using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -195,7 +196,7 @@ namespace FixtureManagementApp
                 // 判断当前填写的工装编号
                 var deviceLocation = deviceLocationList.FirstOrDefault(x => x.id == uiNavBar1SelectedIndexId);
 
-                if(deviceLocation != null)
+                if(deviceLocation != null && frockEntity != null)
                 {
                     frockEntity.modelCode= deviceLocation.modelCode;
                 }
@@ -685,6 +686,28 @@ namespace FixtureManagementApp
             if (hwnd != IntPtr.Zero)
             {
                 SendMessage(hwnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+            }
+        }
+
+        private void timer4_Tick(object sender, EventArgs e)
+        {
+            Ping pingSender = new Ping();
+            try
+            {
+                PingReply reply = pingSender.Send("10.88.228.17", 120);
+
+                if (reply.Status != IPStatus.Success)
+                {
+                    uiSignal1.OnColor= Color.Red;
+                }
+                else
+                {
+                    uiSignal1.OnColor = Color.Green;
+                }
+            }
+            catch (Exception ex)
+            {
+                uiSignal1.OnColor = Color.Red;
             }
         }
     }

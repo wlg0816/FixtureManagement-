@@ -18,13 +18,19 @@ namespace FixtureManagementBLL.Service.Impl
         {
             Ping pingSender = new Ping();
 
-            PingReply reply = pingSender.Send("10.88.228.17", 120);
+            try
+            {
+                PingReply reply = pingSender.Send("10.88.228.17", 120);
 
-            if (reply.Status != IPStatus.Success)
+                if (reply.Status != IPStatus.Success)
+                {
+                    return new List<DeviceLocationEntity>();
+                }
+            }catch (Exception ex)
             {
                 return new List<DeviceLocationEntity>();
             }
-
+            
             string url = "/blade-eqp/frockLoan/getBindingFrock?eqpSn=" + deviceCode;
 
             JObject obj = (JObject)JsonConvert.DeserializeObject(HttpClientUtil.GetRequest(url));
@@ -46,11 +52,17 @@ namespace FixtureManagementBLL.Service.Impl
         {
             Ping pingSender = new Ping();
 
-            PingReply reply = pingSender.Send("10.88.228.17", 120);
-
-            if (reply.Status != IPStatus.Success)
+            try
             {
-                return new frockLifeInfoEntity();
+                PingReply reply = pingSender.Send("10.88.228.17", 120);
+
+                if (reply.Status != IPStatus.Success)
+                {
+                    return null;
+                }
+            }catch(Exception ex)
+            {
+                return null;
             }
 
             string url = "/blade-eqp/frockLoan/getFrockLifeInfo?id="+ id;
@@ -63,14 +75,19 @@ namespace FixtureManagementBLL.Service.Impl
         public historicalSummaryEntity getHistoricalSummaryEntity(long id)
         {
             Ping pingSender = new Ping();
+            try
+            {
+                PingReply reply = pingSender.Send("10.88.228.17", 120);
 
-            PingReply reply = pingSender.Send("10.88.228.17", 120);
-
-            if (reply.Status != IPStatus.Success)
+                if (reply.Status != IPStatus.Success)
+                {
+                    return new historicalSummaryEntity();
+                }
+            }catch(Exception ex)
             {
                 return new historicalSummaryEntity();
             }
-
+            
             string url = "/blade-eqp/frockLoan/getOperateHis?id="+id;
 
             JObject obj = (JObject)JsonConvert.DeserializeObject(HttpClientUtil.GetRequest(url));
@@ -79,11 +96,18 @@ namespace FixtureManagementBLL.Service.Impl
         }
 
         public List<frockBindingLocationEntity> getLocationAllList()
-        {           
-            using (FixtureManagementDAL.devicePlcEntityContext db = new FixtureManagementDAL.devicePlcEntityContext())
+        {
+            try
             {
-                return db.frockBindingLocation.Where(o=>!o.isDel).ToList();
+                using (FixtureManagementDAL.devicePlcEntityContext db = new FixtureManagementDAL.devicePlcEntityContext())
+                {
+                    return db.frockBindingLocation.Where(o => !o.isDel).ToList();
+                }
+            }catch(Exception ex)
+            {
+                return new List<frockBindingLocationEntity>();
             }
+            
         }
 
     }
