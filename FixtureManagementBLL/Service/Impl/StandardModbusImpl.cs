@@ -4,6 +4,7 @@ using FixtureManagementModel.enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,30 +15,66 @@ namespace FixtureManagementBLL.Service.Impl
     {
         public int obtainModbus(devicePlcEntity plcEntity)
         {
-            hcPlcEntity.PlcRequest entity=new hcPlcEntity.PlcRequest();
+            using (Ping pingSender = new Ping())
+            {
+                try
+                {
+                    PingReply reply = pingSender.Send(plcEntity.devicePlcIp, 120);
 
-            entity.gatherPlcIp = plcEntity.devicePlcIp;
+                    if (reply.Status != IPStatus.Success)
+                    {
+                        return 0;
+                    }
+                    hcPlcEntity.PlcRequest entity = new hcPlcEntity.PlcRequest();
 
-            entity.gatherPlcPort=int.Parse(plcEntity.devicePlcPort);
+                    entity.gatherPlcIp = plcEntity.devicePlcIp;
 
-            entity.gatherPlcIo = plcEntity.devicePlcIo;
+                    entity.gatherPlcPort = int.Parse(plcEntity.devicePlcPort);
 
-            return HCPlcUtil.getPlcData(entity);
+                    entity.gatherPlcIo = plcEntity.devicePlcIo;
+
+                    return HCPlcUtil.getPlcData(entity);
+                }
+                catch (Exception ex)
+                {
+                    return 0;
+                }
+            }
+
+            
         }
 
         public bool sendModeus(int fockState,devicePlcEntity plcEntity)
         {
-            hcPlcEntity.PlcRequest entity = new hcPlcEntity.PlcRequest();
+            using (Ping pingSender = new Ping())
+            {
+                try
+                {
+                    PingReply reply = pingSender.Send(plcEntity.devicePlcIp, 120);
 
-            entity.gatherPlcIp = plcEntity.devicePlcIp;
+                    if (reply.Status != IPStatus.Success)
+                    {
+                        return false;
+                    }
+                    hcPlcEntity.PlcRequest entity = new hcPlcEntity.PlcRequest();
 
-            entity.gatherPlcPort = int.Parse(plcEntity.devicePlcPort);
+                    entity.gatherPlcIp = plcEntity.devicePlcIp;
 
-            entity.gatherPlcIo = plcEntity.devicePlcIo;
+                    entity.gatherPlcPort = int.Parse(plcEntity.devicePlcPort);
 
-            entity.gatherPlcIoState = fockState;
+                    entity.gatherPlcIo = plcEntity.devicePlcIo;
 
-            return HCPlcUtil.postPlcData(entity); 
+                    entity.gatherPlcIoState = fockState;
+
+                    return HCPlcUtil.postPlcData(entity);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+
+             
         }
     }
 }

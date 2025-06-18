@@ -334,7 +334,7 @@ namespace FixtureManagementApp
                 {
                     foreach (var item in historicalSummary.records)
                     {
-                        dataTable.Rows.Add(item.date, item.type, item.eqpSn, item.eqpName, item.lifeChange);
+                        dataTable.Rows.Add(item.date.ToString("yyyy-MM-dd"), item.type, item.eqpSn, item.eqpName, item.lifeChange);
                     }
                 }                
             }
@@ -691,24 +691,27 @@ namespace FixtureManagementApp
 
         private void timer4_Tick(object sender, EventArgs e)
         {
-            Ping pingSender = new Ping();
-            try
+            using (Ping pingSender = new Ping())
             {
-                PingReply reply = pingSender.Send("10.88.228.17", 120);
+                try
+                {
+                    PingReply reply = pingSender.Send("10.88.228.17", 120);
 
-                if (reply.Status != IPStatus.Success)
-                {
-                    uiSignal1.OnColor= Color.Red;
+                    if (reply.Status != IPStatus.Success)
+                    {
+                        uiSignal1.OnColor = Color.Red;
+                    }
+                    else
+                    {
+                        uiSignal1.OnColor = Color.Green;
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    uiSignal1.OnColor = Color.Green;
+                    NetLogUtil.WriteTextLog("网络超时：", ex.Message);
+                    uiSignal1.OnColor = Color.Red;
                 }
-            }
-            catch (Exception ex)
-            {
-                uiSignal1.OnColor = Color.Red;
-            }
+            }           
         }
     }
 }
