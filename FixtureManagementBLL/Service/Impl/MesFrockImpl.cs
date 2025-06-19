@@ -38,7 +38,7 @@ namespace FixtureManagementBLL.Service.Impl
 
             List<DeviceLocationEntity> list = new List<DeviceLocationEntity>();
 
-            if (obj != null)
+            if (obj != null && obj.ToString() !="")
             {
                 foreach (var item in obj["data"])
                 {
@@ -71,7 +71,7 @@ namespace FixtureManagementBLL.Service.Impl
 
             JObject obj = (JObject)JsonConvert.DeserializeObject(HttpClientUtil.GetRequest(url));
 
-            return JsonConvert.DeserializeObject<frockLifeInfoEntity>(obj==null?"":obj["data"].ToString());
+            return JsonConvert.DeserializeObject<frockLifeInfoEntity>(obj==null || obj.ToString() == "" ? "":obj["data"].ToString());
         }
 
         public historicalSummaryEntity getHistoricalSummaryEntity(long id)
@@ -97,7 +97,7 @@ namespace FixtureManagementBLL.Service.Impl
 
             JObject obj = (JObject)JsonConvert.DeserializeObject(HttpClientUtil.GetRequest(url));
 
-            return JsonConvert.DeserializeObject<historicalSummaryEntity>(obj == null ? "" : obj["data"].ToString());
+            return JsonConvert.DeserializeObject<historicalSummaryEntity>(obj == null || obj.ToString() == "" ? "" : obj["data"].ToString());
         }
 
         public List<frockBindingLocationEntity> getLocationAllList()
