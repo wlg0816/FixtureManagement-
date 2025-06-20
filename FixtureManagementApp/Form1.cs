@@ -525,7 +525,7 @@ namespace FixtureManagementApp
 
                 string message = string.Join(" , ", frockSns.ToArray()) + ",工装型号不匹配!";
 
-                ShowMessage(message, 6);
+                ShowMessage(message, 15);
 
                 sendSystemErrLog("工装信息不正确", message);
             }
