@@ -46,13 +46,13 @@ namespace FixtureManagementBLL.UtilTool
                 result = sr.ReadToEnd();
                 sr.Close();
                 rs.Close();
+                return result;
             }
             catch(Exception ex)
             {
                 NetLogUtil.WriteTextLog("HTTP_Get", ex.Message);
+                return result;
             }
-            
-            return result;
         }
         /// <summary>
         /// 创建POST请求
@@ -87,13 +87,13 @@ namespace FixtureManagementBLL.UtilTool
                 reader.Close();
                 stream.Close();
                 response.Close();
+                return value;
             }
             catch (Exception ex)
             {
                 NetLogUtil.WriteTextLog("HTTP_Post", ex.Message);
+                return value;
             }
-
-            return value;
         }
     }
 }

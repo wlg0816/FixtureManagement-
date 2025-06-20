@@ -143,10 +143,6 @@ namespace FixtureManagementApp
             this.getPageDateTimeEntity();           
             // 获取当前的配置信息
             this.getLocationList();
-            // 绑定当前设备绑定位置(页签)
-            //this.getAllDeviceLocation();
-            // 获取主界面展示数据
-            //this.getMainEntity();
 
         }
 
@@ -213,8 +209,6 @@ namespace FixtureManagementApp
                 PostMainPage mainPage = new PostMainPage(sendMainPage);
 
                 this.Invoke(mainPage, frockEntity);
-
-                //this.sendMainPage(frockEntity);
 
                 handler(false);
 
@@ -598,16 +592,7 @@ namespace FixtureManagementApp
             threadAll.IsBackground = true;//将线程改为后台线程
 
             threadAll.Start();//开启线程
-
-            //threadAll.Join();
-
-            Thread thread = new Thread(new ThreadStart(getMainEntity));
-
-            thread.IsBackground = true;//将线程改为后台线程
-
-            thread.Start();//开启线程
-
-            thread.Join();
+       
         }
         private void timer2_Tick(object sender, EventArgs e)
         {
@@ -617,8 +602,6 @@ namespace FixtureManagementApp
             thread.IsBackground = true;//将线程改为后台线程
 
             thread.Start();//开启线程
-
-            thread.Join();
             // 设置委托
             ShowHistoricalSummary showHistorical = getHistoricalSummaryFun;
 
@@ -628,7 +611,14 @@ namespace FixtureManagementApp
 
         private void timer3_Tick(object sender, EventArgs e)
         {
-            Task.Run(() => getPageDateTimeEntity());
+            // 获取工装的加工数据明细
+            Thread thread = new Thread(new ThreadStart(getMainEntity));
+
+            thread.IsBackground = true;//将线程改为后台线程
+
+            thread.Start();//开启线程
+
+            thread.Join();
         }
 
         /// <summary>
@@ -691,6 +681,8 @@ namespace FixtureManagementApp
 
         private void timer4_Tick(object sender, EventArgs e)
         {
+            Task.Run(() => getPageDateTimeEntity());
+
             using (Ping pingSender = new Ping())
             {
                 try

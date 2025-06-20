@@ -27,26 +27,32 @@ namespace FixtureManagementBLL.Service.Impl
                         return new List<DeviceLocationEntity>();
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
                     return new List<DeviceLocationEntity>();
                 }
             }
-            string url = "/blade-eqp/frockLoan/getBindingFrock?eqpSn=" + deviceCode;
-
-            JObject obj = (JObject)JsonConvert.DeserializeObject(HttpClientUtil.GetRequest(url));
-
-            List<DeviceLocationEntity> list = new List<DeviceLocationEntity>();
-
-            if (obj != null && obj.ToString() !="")
+            try
             {
-                foreach (var item in obj["data"])
+                string url = "/blade-eqp/frockLoan/getBindingFrock?eqpSn=" + deviceCode;
+
+                JObject obj = (JObject)JsonConvert.DeserializeObject(HttpClientUtil.GetRequest(url));
+
+                List<DeviceLocationEntity> list = new List<DeviceLocationEntity>();
+
+                if (obj != null && obj.ToString() != "")
                 {
-                    list.Add(JsonConvert.DeserializeObject<DeviceLocationEntity>(item.ToString()));
+                    foreach (var item in obj["data"])
+                    {
+                        list.Add(JsonConvert.DeserializeObject<DeviceLocationEntity>(item.ToString()));
+                    }
                 }
+                return list;
             }
-           
-            return list;
+            catch
+            {
+                return new List<DeviceLocationEntity>();
+            }
         }
 
         public frockLifeInfoEntity getFrockLifeInfo(long id)
@@ -59,19 +65,28 @@ namespace FixtureManagementBLL.Service.Impl
 
                     if (reply.Status != IPStatus.Success)
                     {
-                        return null;
+                        return new frockLifeInfoEntity();
                     }
                 }
                 catch (Exception ex)
                 {
-                    return null;
+                    return new frockLifeInfoEntity();
                 }
             }
-            string url = "/blade-eqp/frockLoan/getFrockLifeInfo?id="+ id;
+            try
+            {
+                string url = "/blade-eqp/frockLoan/getFrockLifeInfo?id=" + id;
 
-            JObject obj = (JObject)JsonConvert.DeserializeObject(HttpClientUtil.GetRequest(url));
+                JObject obj = (JObject)JsonConvert.DeserializeObject(HttpClientUtil.GetRequest(url));
 
-            return JsonConvert.DeserializeObject<frockLifeInfoEntity>(obj==null || obj.ToString() == "" ? "":obj["data"].ToString());
+                return JsonConvert.DeserializeObject<frockLifeInfoEntity>(obj == null || obj.ToString() == "" ? "" : obj["data"].ToString());
+
+            }
+            catch
+            {
+                return new frockLifeInfoEntity();
+            }
+            
         }
 
         public historicalSummaryEntity getHistoricalSummaryEntity(long id)
@@ -92,12 +107,19 @@ namespace FixtureManagementBLL.Service.Impl
                     return new historicalSummaryEntity();
                 }
             }
+            try
+            {
+                string url = "/blade-eqp/frockLoan/getOperateHis?id=" + id;
 
-            string url = "/blade-eqp/frockLoan/getOperateHis?id="+id;
+                JObject obj = (JObject)JsonConvert.DeserializeObject(HttpClientUtil.GetRequest(url));
 
-            JObject obj = (JObject)JsonConvert.DeserializeObject(HttpClientUtil.GetRequest(url));
-
-            return JsonConvert.DeserializeObject<historicalSummaryEntity>(obj == null || obj.ToString() == "" ? "" : obj["data"].ToString());
+                return JsonConvert.DeserializeObject<historicalSummaryEntity>(obj == null || obj.ToString() == "" ? "" : obj["data"].ToString());
+            }
+            catch
+            {
+                return new historicalSummaryEntity();
+            }
+            
         }
 
         public List<frockBindingLocationEntity> getLocationAllList()

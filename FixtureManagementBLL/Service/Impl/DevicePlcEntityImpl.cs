@@ -18,7 +18,7 @@ namespace FixtureManagementBLL.Service.Impl
             {
                 using (Ping pingSender = new Ping())
                 {
-                    PingReply reply = pingSender.Send("10.88.228.17", 120);
+                    PingReply reply = pingSender.Send("10.1.0.60", 120);
 
                     if (reply.Status != IPStatus.Success)
                     {
@@ -44,7 +44,7 @@ namespace FixtureManagementBLL.Service.Impl
             {
                 using (Ping pingSender = new Ping())
                 {
-                    PingReply reply = pingSender.Send("10.88.228.17", 120);
+                    PingReply reply = pingSender.Send("10.1.0.60", 120);
 
                     if (reply.Status != IPStatus.Success)
                     {
@@ -58,6 +58,7 @@ namespace FixtureManagementBLL.Service.Impl
                         devicePlc.createDateTime = DateTime.Now;
                     }
                     db.Children.AddOrUpdate(devicePlc);
+
                     return db.SaveChanges() > 0;
                 }
             }catch(Exception ex) 

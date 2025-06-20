@@ -35,7 +35,7 @@ namespace FixtureManagementBLL.Service.Impl
 
                     return HCPlcUtil.getPlcData(entity);
                 }
-                catch (Exception ex)
+                catch
                 {
                     return 0;
                 }
@@ -68,7 +68,7 @@ namespace FixtureManagementBLL.Service.Impl
 
                     return HCPlcUtil.postPlcData(entity);
                 }
-                catch (Exception ex)
+                catch
                 {
                     return false;
                 }
