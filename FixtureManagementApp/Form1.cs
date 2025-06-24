@@ -233,7 +233,7 @@ namespace FixtureManagementApp
 
             configPathSetService.updateAppConfigValue("deviceCode", uiTextBox1.Text);
 
-            this.ShowSuccessTip("更新配置信息 - 成功");
+            this.ShowSuccessDialog("更新设备配置信息成功,请重启程序后生效!");
         }
 
         private void sendMainPage(FixtureManagementModel.frockLifeInfoEntity infoEntity)
@@ -497,10 +497,15 @@ namespace FixtureManagementApp
                 
             };
             foreach(var item in list)
-            {
+            {               
                 var obj =deviceLocationList.FindLast(o=>o.id== item.id);
-               
-                if (!item.frockOaSn.Equals(obj.modelCode))
+
+                if (obj == null)
+                {
+                    break;
+                }
+
+                if (obj.modelCode == null || !obj.modelCode.Equals(item.frockOaSn))
                 {
                     isError = true;
                     isErrorList.Add(item);
@@ -513,13 +518,15 @@ namespace FixtureManagementApp
             // 判断工装模具是不是不符
             if (isError)
             {
-                updatePlcState(fockStateEnum.Error.GetHashCode(), deviceCode);
+                //updatePlcState(fockStateEnum.Error.GetHashCode(), deviceCode);
                 // 填写的工装编号和实际的不符
                 List<string> frockSns = isErrorList.Select(p => p.frockSn).ToList();
 
                 string message = string.Join(" , ", frockSns.ToArray()) + ",工装型号不匹配!";
-
+                // 工装弹窗信息
                 ShowMessage(message, 15);
+
+                this.ShowSuccessTip(message);
 
                 sendSystemErrLog("工装信息不正确", message);
             }
