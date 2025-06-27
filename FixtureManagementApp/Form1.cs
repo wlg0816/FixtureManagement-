@@ -502,12 +502,22 @@ namespace FixtureManagementApp
 
                 if (obj == null)
                 {
-                    break;
+                    FixtureManagementBLL.Service.IAppConfigPathSetService configPathSet = new FixtureManagementBLL.Service.Impl.AppConfigPathSetImpl();
+
+                    FixtureManagementBLL.Service.IMesFrockService frockService = new FixtureManagementBLL.Service.Impl.MesFrockImpl();
+
+                    obj = frockService.getDeviceLocationList(configPathSet.getAppConfigValue("deviceCode")).FindLast(o => o.id == item.id);
+
+                    if (obj == null)
+                    {
+                        break;
+                    }         
                 }
 
                 if (obj.modelCode == null || !obj.modelCode.Equals(item.frockOaSn))
                 {
                     isError = true;
+
                     isErrorList.Add(item);
                 }
             }
@@ -518,7 +528,7 @@ namespace FixtureManagementApp
             // 判断工装模具是不是不符
             if (isError)
             {
-                //updatePlcState(fockStateEnum.Error.GetHashCode(), deviceCode);
+                updatePlcState(fockStateEnum.Error.GetHashCode(), deviceCode);
                 // 填写的工装编号和实际的不符
                 List<string> frockSns = isErrorList.Select(p => p.frockSn).ToList();
 
