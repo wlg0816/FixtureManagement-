@@ -205,14 +205,15 @@ namespace FixtureManagementApp
 
                     return;
                 }
-                // 设置委托
-                PostMainPage mainPage = new PostMainPage(sendMainPage);
+                if(frockEntity != null && frockEntity.frockSn != null)
+                {
+                    // 设置委托
+                    PostMainPage mainPage = new PostMainPage(sendMainPage);
 
-                this.Invoke(mainPage, frockEntity);
+                    this.Invoke(mainPage, frockEntity);
 
-                handler(false);
-
-                
+                    handler(false);
+                }  
             });       
         }
         /// <summary>
